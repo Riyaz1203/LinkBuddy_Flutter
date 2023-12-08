@@ -63,6 +63,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '1043293777445',
     projectId: 'linkbuddy12',
     storageBucket: 'linkbuddy12.appspot.com',
+    androidClientId: '1043293777445-ps51kimadsumg4p6cggak1eo10cvsmq7.apps.googleusercontent.com',
+    iosClientId: '1043293777445-dokdh6o548sgjovq0ra8i3s8bkvf7r8r.apps.googleusercontent.com',
     iosBundleId: 'com.example.linkBuddy',
   );
 }

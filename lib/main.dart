@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
       title: 'Link Buddy',
       theme: ThemeData(
           primarySwatch: Colors.orange,
-          appBarTheme: AppBarTheme(
+          appBarTheme: const AppBarTheme(
             centerTitle: true,
             elevation: 1,
             titleTextStyle: TextStyle(
