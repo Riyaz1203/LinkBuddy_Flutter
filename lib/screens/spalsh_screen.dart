@@ -1,7 +1,9 @@
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:link_buddy/main.dart';
+import 'package:link_buddy/screens/auth/login_screen.dart';
 import 'package:link_buddy/screens/home_screen.dart';
 
 class SpalshScreen extends StatefulWidget {
@@ -15,9 +17,12 @@ class _SpalshScreenState extends State<SpalshScreen> {
   @override
   void get initState {
     super.initState;
-    Future.delayed(const Duration(milliseconds: 1500), () {
+    Future.delayed(const Duration(milliseconds: 2000), () {
+      SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+      SystemChrome.setSystemUIOverlayStyle(
+          SystemUiOverlayStyle(statusBarColor: Colors.transparent));
       Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (_) => const HomeScreen()));
+          context, MaterialPageRoute(builder: (_) => const LoginScreen()));
     });
   }
 
