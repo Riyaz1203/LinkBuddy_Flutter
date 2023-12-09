@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:link_buddy/main.dart';
 import 'package:link_buddy/models/chat_user.dart';
 
 class ChatUserCard extends StatefulWidget {
