@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:link_buddy/api/apis.dart';
 import 'package:link_buddy/main.dart';
+import 'dart:developer';
 import 'package:link_buddy/screens/auth/login_screen.dart';
+import 'package:link_buddy/screens/home_screen.dart';
 
 class SpalshScreen extends StatefulWidget {
   const SpalshScreen({super.key});
@@ -18,8 +21,15 @@ class _SpalshScreenState extends State<SpalshScreen> {
       SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
       SystemChrome.setSystemUIOverlayStyle(
           const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (_) => const LoginScreen()));
+      if (APIs.auth.currentUser != null) {
+        log('User :${APIs.auth.currentUser}');
+
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (_) => const HomeScreen()));
+      } else {
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (_) => const LoginScreen()));
+      }
     });
   }
 
