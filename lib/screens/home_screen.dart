@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:link_buddy/models/chat_user.dart';
+import 'package:link_buddy/screens/profile_screen.dart';
 import 'package:link_buddy/widgets/chat_user_card.dart';
 
 import '../api/apis.dart';
@@ -22,7 +23,14 @@ class _HomeScreenState extends State<HomeScreen> {
         title: const Text('Link Buddy'),
         actions: [
           IconButton(onPressed: () {}, icon: const Icon(Icons.search)),
-          IconButton(onPressed: () {}, icon: const Icon(Icons.more_vert)),
+          IconButton(
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (_) => ProfileScreen(user: list[2])));
+              },
+              icon: const Icon(Icons.more_vert)),
         ],
       ),
       floatingActionButton: Padding(

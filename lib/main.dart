@@ -24,12 +24,12 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Link Buddy',
       theme: ThemeData(
-          primarySwatch: Colors.orange,
+          primarySwatch: Colors.blue,
           appBarTheme: const AppBarTheme(
             centerTitle: true,
             elevation: 1,
             titleTextStyle: TextStyle(
-                fontWeight: FontWeight.bold, color: Colors.black, fontSize: 18),
+                fontWeight: FontWeight.bold, color: Colors.white, fontSize: 18),
           )),
       home: const SpalshScreen(),
       debugShowCheckedModeBanner: false,

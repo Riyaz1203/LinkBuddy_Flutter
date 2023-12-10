@@ -37,7 +37,7 @@ class _SpalshScreenState extends State<SpalshScreen> {
   Widget build(BuildContext context) {
     mq = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: Colors.orange,
+      backgroundColor: Colors.blueAccent,
       body: Stack(children: [
         Positioned(
             top: mq.height * .30,

@@ -18,8 +18,11 @@ class _ChatUserCardState extends State<ChatUserCard> {
       child: InkWell(
         onTap: () {},
         child: ListTile(
-            leading: const CircleAvatar(
-              child: Icon(CupertinoIcons.person),
+            leading: CircleAvatar(
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(100),
+                child: Image.network(widget.user.image),
+              ),
             ),
             title: Text(widget.user.name),
             subtitle: Text(
