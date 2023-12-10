@@ -56,7 +56,7 @@ class _SpalshScreenState extends State<SpalshScreen> {
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
                   letterSpacing: 1,
-                  color: Color.fromARGB(255, 0, 0, 0)),
+                  color: Color.fromARGB(255, 255, 255, 255)),
             )))
       ]),
     );
