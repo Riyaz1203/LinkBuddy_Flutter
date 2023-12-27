@@ -77,7 +77,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           bottom: 0,
                           right: 0,
                           child: MaterialButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              _showBottomSheet();
+                            },
                             color: Colors.white,
                             shape: const CircleBorder(),
                             elevation: 1,
@@ -162,5 +164,48 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
           )),
     );
+  }
+
+  void _showBottomSheet() {
+    showModalBottomSheet(
+        context: context,
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(20), topRight: Radius.circular(20))),
+        builder: (_) {
+          return ListView(
+            shrinkWrap: true,
+            padding: const EdgeInsets.only(top: 20, bottom: 20),
+            children: [
+              Center(
+                  child: Text(
+                'Pick Profile Picture',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              )),
+              Padding(
+                padding: const EdgeInsets.only(top: 30),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.white,
+                            shape: CircleBorder(),
+                            fixedSize: Size(mq.width * .3, mq.height * .15)),
+                        onPressed: null,
+                        child: Image.asset('images/camera.png')),
+                    ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.white,
+                            shape: CircleBorder(),
+                            fixedSize: Size(mq.width * .3, mq.height * .15)),
+                        onPressed: null,
+                        child: Image.asset('images/folder.png'))
+                  ],
+                ),
+              )
+            ],
+          );
+        });
   }
 }
