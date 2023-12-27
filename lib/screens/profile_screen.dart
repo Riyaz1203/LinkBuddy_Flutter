@@ -1,9 +1,12 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:link_buddy/helper/dialouge.dart';
 import 'package:link_buddy/main.dart';
 import 'package:link_buddy/models/chat_user.dart';
 import 'package:link_buddy/screens/auth/login_screen.dart';
+import 'dart:developer';
 
 import '../api/apis.dart';
 
@@ -16,123 +19,148 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  final formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: const Text('Profile Screen'),
-        ),
-        floatingActionButton: Padding(
-          padding: const EdgeInsets.only(bottom: 10, right: 10),
-          child: FloatingActionButton.extended(
-            backgroundColor: Colors.redAccent,
-            onPressed: () async {
-              Dialouge.showProgressBar(context);
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: Scaffold(
+          appBar: AppBar(
+            title: const Text('Profile Screen'),
+          ),
+          floatingActionButton: Padding(
+            padding: const EdgeInsets.only(bottom: 10, right: 10),
+            child: FloatingActionButton.extended(
+              backgroundColor: Colors.redAccent,
+              onPressed: () async {
+                Dialouge.showProgressBar(context);
 
-              await APIs.auth.signOut().then((value) async {
-                await GoogleSignIn().signOut().then((value) {
-                  Navigator.pop(context);
-                  Navigator.pop(context);
+                await APIs.auth.signOut().then((value) async {
+                  await GoogleSignIn().signOut().then((value) {
+                    Navigator.pop(context);
+                    Navigator.pop(context);
 
-                  Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (_) => LoginScreen()));
+                    Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (_) => const LoginScreen()));
+                  });
                 });
-              });
-            },
-            icon: const Icon(Icons.logout),
-            label: Text('Log Out'),
+              },
+              icon: const Icon(Icons.logout),
+              label: const Text('Log Out'),
+            ),
           ),
-        ),
-        body: Padding(
-          padding: EdgeInsets.symmetric(horizontal: mq.width * .05),
-          child: Column(
-            children: [
-              SizedBox(
-                width: mq.width,
-                height: mq.height * .05,
-              ),
-              Stack(
-                children: [
-                  CircleAvatar(
-                    radius: MediaQuery.of(context).size.height * 0.1,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(100),
-                      child: Image.network(
-                        widget.user.image,
-                        height: MediaQuery.of(context).size.height * 0.2,
-                        fit: BoxFit.fill,
-                      ),
+          body: Form(
+            key: formKey,
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: mq.width * .05),
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    SizedBox(
+                      width: mq.width,
+                      height: mq.height * .05,
                     ),
-                  ),
-                  Positioned(
-                    bottom: 0,
-                    right: 0,
-                    child: MaterialButton(
-                      onPressed: () {},
-                      color: Colors.white,
-                      shape: CircleBorder(),
-                      elevation: 1,
-                      child: Icon(
-                        Icons.edit,
-                        color: Colors.blueAccent,
-                      ),
+                    Stack(
+                      children: [
+                        CircleAvatar(
+                          radius: MediaQuery.of(context).size.height * 0.1,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(100),
+                            child: Image.network(
+                              widget.user.image,
+                              height: MediaQuery.of(context).size.height * 0.2,
+                              fit: BoxFit.fill,
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          bottom: 0,
+                          right: 0,
+                          child: MaterialButton(
+                            onPressed: () {},
+                            color: Colors.white,
+                            shape: const CircleBorder(),
+                            elevation: 1,
+                            child: const Icon(
+                              Icons.edit,
+                              color: Colors.blueAccent,
+                            ),
+                          ),
+                        )
+                      ],
                     ),
-                  )
-                ],
-              ),
-              SizedBox(
-                height: mq.height * .02,
-              ),
-              Text(
-                widget.user.email,
-                style: const TextStyle(color: Colors.blue),
-              ),
-              SizedBox(
-                height: mq.height * .04,
-              ),
-              TextFormField(
-                initialValue: widget.user.name,
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12)),
-                    prefixIcon: const Icon(
-                      Icons.person,
-                      color: Colors.blueAccent,
+                    SizedBox(
+                      height: mq.height * .02,
                     ),
-                    hintText: 'Eg : Riyaz',
-                    label: const Text(
-                      'Name',
-                      style: TextStyle(color: Colors.blue),
-                    )),
+                    Text(
+                      widget.user.email,
+                      style: const TextStyle(color: Colors.blue),
+                    ),
+                    SizedBox(
+                      height: mq.height * .04,
+                    ),
+                    TextFormField(
+                      initialValue: widget.user.name,
+                      onSaved: (val) => APIs.me.name = val ?? '',
+                      validator: (val) => val != null && val.isNotEmpty
+                          ? null
+                          : 'Required Field',
+                      decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12)),
+                          prefixIcon: const Icon(
+                            Icons.person,
+                            color: Colors.blueAccent,
+                          ),
+                          hintText: 'Eg : Riyaz',
+                          label: const Text(
+                            'Name',
+                            style: TextStyle(color: Colors.blue),
+                          )),
+                    ),
+                    SizedBox(
+                      height: mq.height * .02,
+                    ),
+                    TextFormField(
+                      initialValue: widget.user.about,
+                      onSaved: (val) => APIs.me.about = val ?? '',
+                      validator: (val) => val != null && val.isNotEmpty
+                          ? null
+                          : 'Required Field',
+                      decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12)),
+                          prefixIcon: const Icon(Icons.hiking,
+                              color: Colors.blueAccent),
+                          hintText: 'Eg : Have a Smile',
+                          label: const Text(
+                            'About',
+                            style: TextStyle(color: Colors.blue),
+                          )),
+                    ),
+                    SizedBox(
+                      height: mq.height * .05,
+                    ),
+                    ElevatedButton.icon(
+                        style: ElevatedButton.styleFrom(
+                            shape: const StadiumBorder(),
+                            minimumSize: Size(mq.width * .4, mq.height * .055)),
+                        onPressed: () {
+                          if (formKey.currentState!.validate()) {
+                            formKey.currentState!.save();
+                            APIs.updateUserInfo().then((value) {
+                              Dialouge.showSnackbar(
+                                  context, 'Updated Successfully');
+                            });
+                          }
+                        },
+                        icon: const Icon(Icons.edit),
+                        label: const Text('Update')),
+                  ],
+                ),
               ),
-              SizedBox(
-                height: mq.height * .02,
-              ),
-              TextFormField(
-                initialValue: widget.user.about,
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12)),
-                    prefixIcon:
-                        const Icon(Icons.hiking, color: Colors.blueAccent),
-                    hintText: 'Eg : Have a Smile',
-                    label: const Text(
-                      'About',
-                      style: TextStyle(color: Colors.blue),
-                    )),
-              ),
-              SizedBox(
-                height: mq.height * .05,
-              ),
-              ElevatedButton.icon(
-                  style: ElevatedButton.styleFrom(
-                      shape: StadiumBorder(),
-                      minimumSize: Size(mq.width * .4, mq.height * .055)),
-                  onPressed: () {},
-                  icon: Icon(Icons.edit),
-                  label: Text('Update')),
-            ],
-          ),
-        ));
+            ),
+          )),
+    );
   }
 }
