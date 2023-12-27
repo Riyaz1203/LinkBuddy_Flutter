@@ -1,4 +1,3 @@
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -6,7 +5,6 @@ import 'package:link_buddy/helper/dialouge.dart';
 import 'package:link_buddy/main.dart';
 import 'package:link_buddy/models/chat_user.dart';
 import 'package:link_buddy/screens/auth/login_screen.dart';
-import 'dart:developer';
 
 import '../api/apis.dart';
 
