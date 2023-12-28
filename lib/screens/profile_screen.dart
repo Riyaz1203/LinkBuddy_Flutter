@@ -1,6 +1,6 @@
-
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:link_buddy/helper/dialouge.dart';
 import 'package:link_buddy/main.dart';
 import 'package:link_buddy/models/chat_user.dart';
@@ -175,7 +175,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             shrinkWrap: true,
             padding: const EdgeInsets.only(top: 20, bottom: 20),
             children: [
-              Center(
+              const Center(
                   child: Text(
                 'Pick Profile Picture',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
@@ -197,7 +197,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             backgroundColor: Colors.white,
                             shape: CircleBorder(),
                             fixedSize: Size(mq.width * .3, mq.height * .15)),
-                        onPressed: null,
+                        onPressed: () async {
+                          final ImagePicker picker = ImagePicker();
+                          final XFile? image = await picker.pickImage(
+                              source: ImageSource.gallery);
+                          if (image != null) {
+                            Navigator.pop(context);
+                          }
+                        },
                         child: Image.asset('images/folder.png'))
                   ],
                 ),

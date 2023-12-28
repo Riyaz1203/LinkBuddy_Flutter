@@ -19,8 +19,9 @@ class _SpalshScreenState extends State<SpalshScreen> {
     super.initState;
     Future.delayed(const Duration(milliseconds: 2000), () {
       SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
-      SystemChrome.setSystemUIOverlayStyle(
-          const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
+      SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+          statusBarColor: Color.fromARGB(0, 255, 255, 255),
+          systemNavigationBarColor: Colors.white));
       if (APIs.auth.currentUser != null) {
         log('User :${APIs.auth.currentUser}');
 

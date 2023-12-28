@@ -1,13 +1,18 @@
 // ignore_for_file: non_constant_identifier_names
 
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:link_buddy/models/chat_user.dart';
+
 
 class APIs {
   static FirebaseAuth auth = FirebaseAuth.instance;
 
   static FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+  static FirebaseStorage storage = FirebaseStorage.instance;
 
   static late ChatUser me;
 
@@ -53,14 +58,14 @@ class APIs {
         .where('id', isNotEqualTo: user.uid)
         .snapshots();
   }
-   static Future<void> updateUserInfo() async {
-    await firestore.collection('users').doc(user.uid).update({
-      'name':me.name,
-      'about':me.about
-    });
+
+  static Future<void> updateUserInfo() async {
+    await firestore
+        .collection('users')
+        .doc(user.uid)
+        .update({'name': me.name, 'about': me.about});
   }
 }
 
 
 
- 
