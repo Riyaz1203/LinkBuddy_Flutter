@@ -1,11 +1,9 @@
 // ignore_for_file: non_constant_identifier_names
 
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:link_buddy/models/chat_user.dart';
-
 
 class APIs {
   static FirebaseAuth auth = FirebaseAuth.instance;
@@ -65,7 +63,8 @@ class APIs {
         .doc(user.uid)
         .update({'name': me.name, 'about': me.about});
   }
+
+  static Stream<QuerySnapshot<Map<String, dynamic>>> getAllMessages() {
+    return firestore.collection('messages').snapshots();
+  }
 }
-
-
-
