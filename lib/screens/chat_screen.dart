@@ -21,6 +21,8 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
   List<Message> _list = [];
 
+  final _textController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -29,42 +31,25 @@ class _ChatScreenState extends State<ChatScreen> {
           automaticallyImplyLeading: false,
           flexibleSpace: _appbar(),
         ),
+        backgroundColor: const Color.fromARGB(255, 234, 248, 255),
         body: Column(children: [
           Expanded(
             child: StreamBuilder(
-              stream: APIs.getAllMessages(),
+              stream: APIs.getAllMessages(widget.user),
               builder: (context, snapshot) {
                 switch (snapshot.connectionState) {
                   case ConnectionState.waiting:
                   case ConnectionState.none:
                     return const Center(
-                      child: CircularProgressIndicator(),
+                      child: SizedBox(),
                     );
 
                   case ConnectionState.active:
                   case ConnectionState.done:
                     final data = snapshot.data?.docs;
-                    log('Data:${jsonEncode(data![0].data())}');
-                    // _list = data
-                    //         ?.map((e) => ChatUser.fromJson(e.data()))
-                    //         .toList() ??
-                    //     [];
-                    _list.clear();
-                    _list.add(Message(
-                        msg: 'Hii',
-                        read: '',
-                        told: 'xyz',
-                        type: Type.text,
-                        sent: '12:00 AM',
-                        fromid: APIs.user.uid));
-
-                    _list.add(Message(
-                        msg: 'Heloo',
-                        read: '',
-                        told: APIs.user.uid,
-                        type: Type.text,
-                        sent: '12:00 AM',
-                        fromid: 'xyz'));
+                    _list =
+                        data?.map((e) => Message.fromJson(e.data())).toList() ??
+                            [];
 
                     if (_list.isNotEmpty) {
                       return ListView.builder(
@@ -110,11 +95,12 @@ class _ChatScreenState extends State<ChatScreen> {
                         Icons.emoji_emotions,
                         color: Colors.blue,
                       )),
-                  const Expanded(
+                  Expanded(
                       child: TextField(
+                    controller: _textController,
                     keyboardType: TextInputType.multiline,
                     maxLines: null,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                         hintText: 'Type Something...',
                         hintStyle: TextStyle(
                           color: Colors.blue,
@@ -131,7 +117,12 @@ class _ChatScreenState extends State<ChatScreen> {
             padding:
                 const EdgeInsets.only(top: 10, bottom: 10, left: 10, right: 5),
             color: Colors.blue,
-            onPressed: () {},
+            onPressed: () {
+              if (_textController.text.isNotEmpty) {
+                APIs.sendMessage(widget.user, _textController.text);
+                _textController.text = '';
+              }
+            },
             child: const Icon(
               Icons.send,
               color: Color.fromARGB(255, 255, 255, 255),
