@@ -1,5 +1,7 @@
 // ignore_for_file: non_constant_identifier_names
 
+import 'dart:ffi';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -77,11 +79,40 @@ class APIs {
   }
 
   static Future<void> sendMessage(ChatUser chatUser, String msg) async {
-
     final time = DateTime.now().millisecondsSinceEpoch.toString();
-    final Message message=Message(msg: msg, read: '', told: chatUser.id, type: Type.text, sent: time, fromid: user.uid);
-    final ref =
-        firestore.collection('chats/${getConversationId(chatUser.id)}/messages/');
-        ref.doc().set(message.toJson());
+    final Message message = Message(
+        msg: msg,
+        read: '',
+        told: chatUser.id,
+        type: Type.text,
+        sent: time,
+        fromid: user.uid);
+    final ref = firestore
+        .collection('chats/${getConversationId(chatUser.id)}/messages/');
+    ref.doc().set(message.toJson());
+  }
+
+  static Future<void> updateMessageReadStatus(Message message) async {
+    final collectionPath =
+        'chats/${getConversationId(message.fromid)}/messages/';
+
+    final querySnapshot = await firestore
+        .collection(collectionPath)
+        .where('sent', isEqualTo: message.sent)
+        .get();
+
+    if (querySnapshot.docs.isNotEmpty) {
+      final docRef = querySnapshot.docs.first.reference;
+      await docRef
+          .update({'read': DateTime.now().millisecondsSinceEpoch.toString()});
+    }
+  }
+
+    static Stream<QuerySnapshot<Map<String, dynamic>>> getLastMessage(
+      ChatUser user) {
+    return firestore
+        .collection('chats/${getConversationId(user.id)}/messages/')
+        .limit(1)
+        .snapshots();
   }
 }

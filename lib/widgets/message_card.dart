@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:link_buddy/api/apis.dart';
+import 'package:link_buddy/helper/my_date_util.dart';
 import 'package:link_buddy/models/message.dart';
 
 import '../main.dart';
@@ -22,6 +25,15 @@ class _MessageCardState extends State<MessageCard> {
   }
 
   Widget _blueMessage() {
+    if (widget.message.read.isEmpty) {
+      // Only update if read is empty (not marked as read)
+      APIs.updateMessageReadStatus(widget.message).then((_) {
+        // Trigger a rebuild of the widget once the update is complete
+        if (mounted) {
+          setState(() {});
+        }
+      });
+    }
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -43,7 +55,8 @@ class _MessageCardState extends State<MessageCard> {
         Padding(
           padding: EdgeInsets.only(right: mq.width * 0.04),
           child: Text(
-            widget.message.sent,
+            myDateUtil.getFormattedTime(
+                context: context, time: widget.message.sent),
             style: const TextStyle(fontSize: 13, color: Colors.black54),
           ),
         ),
@@ -58,16 +71,18 @@ class _MessageCardState extends State<MessageCard> {
         Row(
           children: [
             SizedBox(width: mq.width * 0.04),
-            const Icon(
-              Icons.done_all_outlined,
-              color: Colors.blue,
-              size: 20,
-            ),
+            if (widget.message.read.isNotEmpty)
+              const Icon(
+                Icons.done_all_outlined,
+                color: Colors.blue,
+                size: 20,
+              ),
             const SizedBox(
               width: 2,
             ),
             Text(
-              widget.message.sent,
+              myDateUtil.getFormattedTime(
+                  context: context, time: widget.message.sent),
               style: const TextStyle(fontSize: 13, color: Colors.black54),
             ),
           ],
