@@ -1,7 +1,4 @@
 // ignore_for_file: non_constant_identifier_names
-
-import 'dart:ffi';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -65,6 +62,21 @@ class APIs {
         .collection('users')
         .doc(user.uid)
         .update({'name': me.name, 'about': me.about});
+  }
+
+  static Stream<QuerySnapshot<Map<String, dynamic>>> getUserInfo(
+      ChatUser chatUser) {
+    return firestore
+        .collection('users')
+        .where('id', isEqualTo: chatUser.id)
+        .snapshots();
+  }
+
+  static Future<void> updateActiveStatus(bool isOnline) async {
+    return firestore.collection('users').doc(user.uid).update({
+      'is_online': isOnline,
+      'last_active': DateTime.now().millisecondsSinceEpoch.toString()
+    });
   }
 
   static String getConversationId(String id) => user.uid.hashCode <= id.hashCode

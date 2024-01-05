@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:link_buddy/models/chat_user.dart';
 import 'package:link_buddy/screens/profile_screen.dart';
@@ -22,6 +23,16 @@ class _HomeScreenState extends State<HomeScreen> {
   void get initState {
     super.initState;
     APIs.getSelfInfo();
+    APIs.updateActiveStatus(true);
+    SystemChannels.lifecycle.setMessageHandler((message) {
+      if (APIs.auth.currentUser != null) {
+        if (message.toString().contains('pause'))
+          APIs.updateActiveStatus(false);
+        if (message.toString().contains('resume'))
+          APIs.updateActiveStatus(true);
+      }
+      return Future.value(message);
+    });
   }
 
   @override
