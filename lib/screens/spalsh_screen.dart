@@ -37,29 +37,21 @@ class _SpalshScreenState extends State<SpalshScreen> {
   @override
   Widget build(BuildContext context) {
     mq = MediaQuery.of(context).size;
-    return Scaffold(
+    return const Scaffold(
       backgroundColor: Colors.blueAccent,
-      body: Stack(children: [
-        Positioned(
-            top: mq.height * .30,
-            left: mq.width * .25,
-            width: mq.width * .5,
-            child: Image.asset('images/LinkBuddy.png')),
-        Positioned(
-            bottom: mq.height * .30,
-            left: mq.width * .05,
-            width: mq.width * .9,
-            height: mq.height * .06,
-            child: const Center(
-                child: Text(
-              'CRAFTED BY CRAYONT',
-              style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                  letterSpacing: 1,
-                  color: Color.fromARGB(255, 255, 255, 255)),
-            )))
-      ]),
+      body: Center(
+        child: Stack(children: [
+          Center(
+              child: Text(
+            'LINKBUDDY ⚡',
+            style: TextStyle(
+                fontSize: 20,
+                letterSpacing: 4,
+                fontWeight: FontWeight.bold,
+                color: Color.fromARGB(255, 255, 255, 255)),
+          ))
+        ]),
+      ),
     );
   }
 }
