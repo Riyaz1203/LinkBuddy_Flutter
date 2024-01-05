@@ -192,20 +192,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ElevatedButton(
                         style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.white,
-                            shape: CircleBorder(),
+                            shape: const CircleBorder(),
                             fixedSize: Size(mq.width * .3, mq.height * .15)),
                         onPressed: null,
                         child: Image.asset('images/camera.png')),
                     ElevatedButton(
                         style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.white,
-                            shape: CircleBorder(),
+                            shape: const CircleBorder(),
                             fixedSize: Size(mq.width * .3, mq.height * .15)),
                         onPressed: () async {
                           final ImagePicker picker = ImagePicker();
                           final XFile? image = await picker.pickImage(
                               source: ImageSource.gallery);
                           if (image != null) {
+                            // ignore: use_build_context_synchronously
                             Navigator.pop(context);
                           }
                         },

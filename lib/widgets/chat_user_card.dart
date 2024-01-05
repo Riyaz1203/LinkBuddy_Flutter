@@ -56,7 +56,7 @@ class _ChatUserCardState extends State<ChatUserCard> {
                               width: 10,
                               height: 10,
                               decoration: BoxDecoration(
-                                  color: Color.fromARGB(255, 0, 169, 87),
+                                  color: const Color.fromARGB(255, 0, 169, 87),
                                   borderRadius: BorderRadius.circular(10)),
                             )
                           : Text(myDateUtil.getLastMessageTime(
