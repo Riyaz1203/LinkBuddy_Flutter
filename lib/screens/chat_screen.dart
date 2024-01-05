@@ -23,6 +23,8 @@ class _ChatScreenState extends State<ChatScreen> {
 
   final _textController = TextEditingController();
 
+  bool _showEmoji = false;
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -71,7 +73,7 @@ class _ChatScreenState extends State<ChatScreen> {
               },
             ),
           ),
-          _chatinput()
+          _chatinput(),
         ]),
       ),
     );
@@ -89,12 +91,14 @@ class _ChatScreenState extends State<ChatScreen> {
                   borderRadius: BorderRadius.circular(15)),
               child: Row(
                 children: [
-                  IconButton(
-                      onPressed: () {},
-                      icon: const Icon(
-                        Icons.emoji_emotions,
-                        color: Colors.blue,
-                      )),
+                  // IconButton(
+                  //     onPressed: () {
+                  //       setState(() => _showEmoji = !_showEmoji);
+                  //     },
+                  //     icon: const Icon(
+                  //       Icons.emoji_emotions,
+                  //       color: Colors.blue,
+                  //     )),
                   Expanded(
                       child: TextField(
                     controller: _textController,
