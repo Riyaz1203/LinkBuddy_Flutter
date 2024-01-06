@@ -20,8 +20,8 @@ class _MessageCardState extends State<MessageCard> {
   @override
   Widget build(BuildContext context) {
     return APIs.user.uid == widget.message.fromid
-        ? _greenMessage()
-        : _blueMessage();
+        ? _blueMessage()
+        : _greenMessage();
   }
 
   Widget _blueMessage() {

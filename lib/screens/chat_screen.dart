@@ -123,7 +123,12 @@ class _ChatScreenState extends State<ChatScreen> {
             color: Colors.blue,
             onPressed: () {
               if (_textController.text.isNotEmpty) {
-                APIs.sendMessage(widget.user, _textController.text);
+                if (_list.isEmpty) {
+                  APIs.sendFirstMessage(
+                      widget.user, _textController.text, Type.text);
+                } else {
+                  APIs.sendMessage(widget.user, _textController.text);
+                }
                 _textController.text = '';
               }
             },
@@ -143,7 +148,7 @@ class _ChatScreenState extends State<ChatScreen> {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (_) => ViewProfileScreen(user: widget.user))); 
+                  builder: (_) => ViewProfileScreen(user: widget.user)));
         },
         child: Center(
           child: StreamBuilder(
@@ -193,7 +198,8 @@ class _ChatScreenState extends State<ChatScreen> {
                               : myDateUtil.getLastActiveTime(
                                   context: context,
                                   lastActive: widget.user.lastActive),
-                          style: const TextStyle(fontSize: 13, color: Colors.black54),
+                          style: const TextStyle(
+                              fontSize: 13, color: Colors.black54),
                         )
                       ],
                     )
