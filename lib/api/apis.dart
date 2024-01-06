@@ -75,7 +75,7 @@ class APIs {
     if (userIds.isEmpty) {
       // You can choose to return an empty stream or handle the case as needed.
       // Here, we're returning an empty stream.
-      return Stream.empty();
+      return const Stream.empty();
     }
 
     return firestore
